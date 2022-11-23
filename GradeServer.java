@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
+/*
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+*/
 
 class ExecHelpers {
   static String streamToString(InputStream out) {
@@ -23,7 +25,7 @@ class ExecHelpers {
     return result;
   }
   static String exec(String[] cmd) throws IOException {
-    Process p = new ProcessBuilder().command(Arrays.asList(cmd)).redirectErrorStream(true).start();
+    Process p = new ProcessBuilder().command(Arrays.asList(cmd)).start();
     InputStream out = p.getInputStream();
 //    InputStream err = p.getErrorStream();
     return String.format("%s\n", streamToString(out));

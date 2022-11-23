@@ -14,27 +14,46 @@ then
     exit
 fi
 
-cp $CPATH ../list-examples-grader
-
 set +e 
 
-javac ListExamples.java TestListExamples.java 2> output.txt
-java ListExamples TestListExamples 
+# inspired by https://github.com/phuanh004/list-examples-grader
+mkdir student-submission/lib
+cp lib/* student-submission/lib
+cp *.java student-submission
 
-if [[ ! $? = 0 ]]
+cd student-submission
+
+
+# javac TestListExamples.java 2> output-test.txt
+# java TestListExamples
+
+# if [[ ! $? -ne 0 ]]
+# then
+#     echo "ListExamples.java failed some tests"
+#     cat output.txt
+#     exit
+# fi
+
+# javac ListExamples.java TestListExamples.java 2> output.txt
+# java ListExamples TestListExamples
+
+# if [[ ! $? -ne 0 ]]
+# then
+#     echo "ListExamples.java failed to compile :/"
+#     cat output.txt
+#     exit
+# fi
+
+javac -cp $JUNITPATH ListExamples.java TestListExamples.java 2> junitout.txt
+java -cp $JUNITPATH org.junit.runner.JUnitCore ListExamples TestListExamples 2 > junitout.txt
+
+if [[ ! $? -ne 0 ]]
 then
     echo "ListExamples.java failed to compile :/"
-    cat output.txt
+   # cat junitout.txt
     exit
-fi
-
-javac -cp $JUNITPATH TestListExamples.java 2> junitout.txt
-java -cp $JUNITPATH org.junit.runner.JUnitCore TestListExamples 2> junitout.txt
-
-if [[ ! $? = 0 ]]
-then
-    echo "There were issues with the junit tests :,("
-    cat junitout.txt
+else
+    echo "Everything looks good :)"
     exit
 fi
 
