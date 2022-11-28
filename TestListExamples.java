@@ -34,7 +34,6 @@ public class TestListExamples {
     assertEquals(expected, result);
   }
 
-  /*
   @Test
   public void testFilter() {
     checkA sc = new checkA(); 
@@ -43,7 +42,6 @@ public class TestListExamples {
     List<String> expected = Arrays.asList("a");
     assertEquals(expected, result);
   }
-  */ 
   
   public void testMerge(){
     List<String> list1 = Arrays.asList("a", "c", "e");
@@ -53,19 +51,21 @@ public class TestListExamples {
     assertEquals(expected, ListExamples.merge(list1, list2));
   }
 
-    @Test
-    public void testFilter() {
-      StringChecker sc = s1 -> s1.contains("Anh");
-  
-      List<String> input = new ArrayList<>();
-      input.add("Hi");
-      input.add("Anh Pham 1");
-      input.add("Anh Pham 2");
-  
-      List<String> expected = new ArrayList<>();
-      expected.add("Anh Pham 1");
-      expected.add("Anh Pham 2");
-  
-      assertArrayEquals(expected.toArray(), ListExamples.filter(input, sc).toArray());
-    }
+  /*
+  @Test
+  public void testFilter() {
+    StringChecker sc = s1 -> s1.contains("Anh");
+
+    List<String> input = new ArrayList<>();
+    input.add("Hi");
+    input.add("Anh Pham 1");
+    input.add("Anh Pham 2");
+
+    List<String> expected = new ArrayList<>();
+    expected.add("Anh Pham 1");
+    expected.add("Anh Pham 2");
+
+    assertArrayEquals(expected.toArray(), ListExamples.filter(input, sc).toArray());
   }
+  */
+}

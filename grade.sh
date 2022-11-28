@@ -3,7 +3,7 @@
 set -e
 
 CPATH="student-submission/ListExamples.java"
-JUNITPATH=".:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar"
+JUNITPATH=".:../lib/hamcrest-core-1.3.jar:../lib/junit-4.13.2.jar"
 
 rm -rf student-submission
 git clone $1 student-submission
@@ -12,48 +12,34 @@ if [[ ! -f $CPATH ]]
 then
     echo "ListExamples.java wasn't found :("
     exit
+else 
+    echo "student-submission was cloned successfully :)"
 fi
 
 set +e 
 
-# inspired by https://github.com/phuanh004/list-examples-grader
-mkdir student-submission/lib
-cp lib/* student-submission/lib
-cp *.java student-submission
-
+cp TestListExamples.java student-submission
 cd student-submission
 
+javac -cp $JUNIT_PATH *.java 2> juniterr.txt
 
-# javac TestListExamples.java 2> output-test.txt
-# java TestListExamples
-
-# if [[ ! $? -ne 0 ]]
-# then
-#     echo "ListExamples.java failed some tests"
-#     cat output.txt
-#     exit
-# fi
-
-# javac ListExamples.java TestListExamples.java 2> output.txt
-# java ListExamples TestListExamples
-
-# if [[ ! $? -ne 0 ]]
-# then
-#     echo "ListExamples.java failed to compile :/"
-#     cat output.txt
-#     exit
-# fi
-
-javac -cp $JUNITPATH ListExamples.java TestListExamples.java 2> junitout.txt
-java -cp $JUNITPATH org.junit.runner.JUnitCore ListExamples TestListExamples 2 > junitout.txt
-
-if [[ ! $? -ne 0 ]]
+if [[ $? -eq 0 ]]
 then
-    echo "ListExamples.java failed to compile :/"
-   # cat junitout.txt
-    exit
+    echo "Compilation was a success :)"
 else
-    echo "Everything looks good :)"
+    echo "ListExamples.java failed to compile :/"
     exit
 fi
 
+java -cp $JUNIT_PATH org.junit.runner.JUnitCore TestListExamples 2> junitout.txt
+
+if [[ $? -ne 0 ]]
+then
+    echo "Some tests failed :,("
+    FAILURE=$(grep "Failures: " junitout.txt)
+    SCORE=$((5-$FAILURE))
+    echo $SCORE "/5"
+else
+    echo "All tests passed!"
+    echo "Score: 5/5 :)"
+fi
